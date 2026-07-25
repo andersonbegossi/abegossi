@@ -28,8 +28,8 @@ and clients: SEO and shareable URLs are requirements, not nice-to-haves.
 - LinkedIn: `linkedin.com/in/andersonbegossi-b5065a130` · Email: `andersonbegossi@gmail.com`.
 - Custom domain: to be purchased (begossi.dev has no DNS today). Until then the site
   lives on its Vercel URL; the canonical base URL is a single site-config constant.
-- Assets pulled from the design project live in `assets/` until the app scaffold
-  exists, then move to `public/`: `hero-photo.webp`, `Anderson-Begossi-Resume.pdf`.
+- Assets pulled from the design project are served from `public/`:
+  `hero-photo.webp`, `Anderson-Begossi-Resume.pdf`.
 
 ## Link policy
 
@@ -38,6 +38,14 @@ repo is private/nonexistent (`stewart-acid-base`, `voce-mais-saude`,
 `rn-monorepo-starter` all 404 publicly today). Exception: the `begossi.dev` project
 card links to this repository (`github.com/andersonbegossi/abegossi`), which is public.
 The design's placeholder `apps.apple.com` "Live" link is dropped.
+
+The rule also removed two controls the design snapshot has:
+
+- **Employer link.** The design links "Bamse" to `bamse.com.br`, which is NXDOMAIN.
+  The Home hero names the employer as plain text. Restore the link once Anderson
+  supplies the real URL.
+- **Language toggle.** The header's EN/PT button is absent until the `/pt/` routes
+  exist; it returns with the Portuguese locale (ADR 0002).
 
 ## Decisions
 
@@ -48,3 +56,4 @@ See `docs/adr/`:
 - 0003 — Blog content as MDX, one file per post per locale
 - 0004 — Contact form delivers via Formspree
 - 0005 — Hosting on Vercel
+- 0006 — Directory-style URLs with a trailing slash

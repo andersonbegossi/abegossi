@@ -1,0 +1,82 @@
+import { describe, expect, it } from 'vitest';
+import { screen, within } from '@testing-library/react';
+import { renderRoute } from '@/test/render-route';
+import HomePage from './page';
+
+describe('Home screen', () => {
+  it('introduces Anderson with his name, role, employer and bio', () => {
+    renderRoute(<HomePage />);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Anderson Begossi' })).toBeInTheDocument();
+    expect(screen.getByText(/Senior Mobile Developer · Bamse/)).toBeInTheDocument();
+    // Link policy: bamse.com.br does not resolve, so the employer is named but not linked.
+    expect(screen.queryByRole('link', { name: 'Bamse' })).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/I build mobile apps used by thousands of people/),
+    ).toBeInTheDocument();
+    expect(screen.getByAltText('Anderson Begossi')).toBeInTheDocument();
+  });
+
+  it('shows that Anderson is open to work', () => {
+    renderRoute(<HomePage />);
+
+    expect(screen.getByText('open to new opportunities & freelance')).toBeInTheDocument();
+  });
+
+  it('offers the committed resume PDF as a download', () => {
+    renderRoute(<HomePage />);
+
+    const download = screen.getByRole('link', { name: /Download resume/ });
+    expect(download).toHaveAttribute('href', '/Anderson-Begossi-Resume.pdf');
+    expect(download).toHaveAttribute('download', 'Anderson-Begossi-Resume.pdf');
+  });
+
+  it('routes the get-in-touch action to the contact page', () => {
+    renderRoute(<HomePage />);
+
+    expect(screen.getByRole('link', { name: /Get in touch/ })).toHaveAttribute('href', '/contact');
+  });
+
+  it('links the profiles to the andersonbegossi accounts', () => {
+    renderRoute(<HomePage />);
+
+    const hero = screen.getByRole('region', { name: 'Anderson Begossi' });
+    expect(within(hero).getByRole('link', { name: /GitHub/ })).toHaveAttribute(
+      'href',
+      'https://github.com/andersonbegossi',
+    );
+    expect(within(hero).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute(
+      'href',
+      'https://linkedin.com/in/andersonbegossi-b5065a130',
+    );
+  });
+
+  it('previews two featured projects that lead to the projects screen', () => {
+    renderRoute(<HomePage />);
+
+    const selectedWork = screen.getByRole('region', { name: 'Selected work' });
+    const cards = within(selectedWork).getAllByRole('link', { name: /Stewart Acid-Base|Você \+ Saúde/ });
+
+    expect(cards).toHaveLength(2);
+    expect(cards[0]).toHaveAccessibleName(/Stewart Acid-Base/);
+    expect(cards[1]).toHaveAccessibleName(/Você \+ Saúde/);
+    for (const card of cards) {
+      expect(card).toHaveAttribute('href', '/projects');
+    }
+
+    expect(within(selectedWork).getByText(/React Native · TypeScript/)).toBeInTheDocument();
+    expect(
+      within(selectedWork).getByText(/Clinical decision-support app/),
+    ).toBeInTheDocument();
+    expect(within(selectedWork).getByRole('link', { name: /View all/ })).toHaveAttribute(
+      'href',
+      '/projects',
+    );
+  });
+
+  it('does not show the writing section yet', () => {
+    renderRoute(<HomePage />);
+
+    expect(screen.queryByText('Writing')).not.toBeInTheDocument();
+  });
+});

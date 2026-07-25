@@ -1,0 +1,28 @@
+.toggle {
+  border: 1px solid var(--border);
+  background: none;
+  padding: 5px 9px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.toggle:hover {
+  color: var(--fg);
+  border-color: var(--muted);
+}
+
+.whenDark {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .whenLight {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .whenDark {
+  display: inline;
+}
