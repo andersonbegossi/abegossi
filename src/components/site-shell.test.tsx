@@ -73,9 +73,9 @@ describe('language', () => {
   it('translates the nav and keeps it inside the Portuguese locale', () => {
     renderRoute(<PortugueseHomePage />, '/pt');
 
-    const nav = screen.getByRole('navigation', { name: 'Main' });
+    const nav = screen.getByRole('navigation', { name: 'Principal' });
 
-    expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/pt');
+    expect(within(nav).getByRole('link', { name: 'Início' })).toHaveAttribute('href', '/pt');
     expect(within(nav).getByRole('link', { name: 'Sobre' })).toHaveAttribute('href', '/pt/about');
     expect(within(nav).getByRole('link', { name: 'Projetos' })).toHaveAttribute(
       'href',
@@ -106,7 +106,7 @@ describe('language', () => {
   it('leads back to the same screen in English from Portuguese', () => {
     renderRoute(<PortugueseHomePage />, '/pt/about');
 
-    const toggle = screen.getByRole('link', { name: 'Switch language' });
+    const toggle = screen.getByRole('link', { name: 'Mudar idioma' });
 
     expect(toggle).toHaveTextContent('EN');
     expect(toggle).toHaveAttribute('href', '/about');
@@ -115,7 +115,7 @@ describe('language', () => {
   it('switches the Home screens between each other, not into a sub-page', () => {
     renderRoute(<PortugueseHomePage />, '/pt');
 
-    expect(screen.getByRole('link', { name: 'Switch language' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Mudar idioma' })).toHaveAttribute('href', '/');
   });
 
   it('remembers the language the visitor picked', async () => {
@@ -128,10 +128,10 @@ describe('language', () => {
     expect(localStorage.getItem('ab-lang')).toBe('pt');
   });
 
-  it('labels the theme toggle in the language of the page', () => {
+  it('names the chrome controls in the language of the page', () => {
     renderRoute(<PortugueseHomePage />, '/pt');
 
-    const toggle = screen.getByRole('button', { name: 'Toggle theme' });
+    const toggle = screen.getByRole('button', { name: 'Alternar tema' });
 
     expect(within(toggle).getByText('ESCURO')).toBeInTheDocument();
     expect(within(toggle).getByText('CLARO')).toBeInTheDocument();

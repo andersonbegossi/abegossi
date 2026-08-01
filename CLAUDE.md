@@ -22,7 +22,7 @@ npm run check:fix        # biome autofix (what lint-staged runs on commit)
 Single test file / single case:
 
 ```bash
-npx vitest run src/app/page.test.tsx
+npx vitest run 'src/app/(en)/page.test.tsx'
 npx vitest run -t 'introduces Anderson'
 ```
 

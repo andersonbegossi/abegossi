@@ -7,6 +7,12 @@ import type { Dictionary } from './dictionary';
  */
 export const pt: Dictionary = {
   nav: { about: 'Sobre', projects: 'Projetos', blog: 'Blog', resume: 'Currículo' },
+  a11y: {
+    mainNav: 'Principal',
+    home: 'Início',
+    switchLanguage: 'Mudar idioma',
+    toggleTheme: 'Alternar tema',
+  },
   notFound: {
     title: 'Página não encontrada',
     subtitle: 'Essa página não existe — use a navegação acima.',

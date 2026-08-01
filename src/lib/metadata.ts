@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getDictionary } from './i18n';
-import { htmlLang, localePath, type Locale } from './i18n/locale';
+import { htmlLang, localePath, type Locale, type ScreenPath } from './i18n/locale';
 import { siteConfig } from './site-config';
 
 /** Title and description for a locale's root layout — inherited by its pages. */
@@ -19,22 +19,22 @@ export function localeMetadata(locale: Locale): Metadata {
  * exports this for its own screen path — the layout cannot, since it would then
  * claim the same canonical URL for every page underneath it.
  */
-export function screenMetadata(locale: Locale, screen: string): Metadata {
+export function screenMetadata(locale: Locale, screen: ScreenPath): Metadata {
   return {
     alternates: {
-      canonical: url(screen, locale),
+      canonical: canonicalUrl(screen, locale),
       languages: {
-        [htmlLang.en]: url(screen, 'en'),
-        [htmlLang.pt]: url(screen, 'pt'),
+        [htmlLang.en]: canonicalUrl(screen, 'en'),
+        [htmlLang.pt]: canonicalUrl(screen, 'pt'),
         /** No locale redirect at the root (ADR 0002), so English is the default. */
-        'x-default': url(screen, 'en'),
+        'x-default': canonicalUrl(screen, 'en'),
       },
     },
   };
 }
 
 /** The site publishes directory-style URLs (ADR 0006), so canonicals end in a slash. */
-function url(screen: string, locale: Locale): string {
+function canonicalUrl(screen: ScreenPath, locale: Locale): string {
   const path = localePath(screen, locale);
   return path.endsWith('/') ? path : `${path}/`;
 }

@@ -5,6 +5,12 @@
  */
 export type Dictionary = {
   nav: { about: string; projects: string; blog: string; resume: string };
+  /**
+   * Accessible names for the controls whose visible label is a glyph or a code.
+   * The design hardcodes these in English; a `lang="pt-BR"` document that
+   * announces its chrome in English is the bug that would leave.
+   */
+  a11y: { mainNav: string; home: string; switchLanguage: string; toggleTheme: string };
   /** The design has no 404 screen; this copy is ours, kept to the design's voice. */
   notFound: { title: string; subtitle: string };
   /** Labels name the theme you would switch *to*; the design derives them inline. */

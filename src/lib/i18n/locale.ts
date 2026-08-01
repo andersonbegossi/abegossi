@@ -16,11 +16,21 @@ export const htmlLang: Record<Locale, string> = { en: 'en', pt: 'pt-BR' };
 /** Storage key carried over from the design prototype. */
 export const LOCALE_STORAGE_KEY = 'ab-lang';
 
+/**
+ * The designed screens (CONTEXT.md), as the locale-independent paths they route
+ * at — `/about` is `/about` in English and `/pt/about` in Portuguese. Typing the
+ * screen means a page cannot claim a canonical URL the site does not serve.
+ */
+export const screens = ['/', '/about', '/projects', '/blog', '/resume', '/contact'] as const;
+
+export type ScreenPath = (typeof screens)[number];
+
 const urlPrefix: Record<Locale, string> = { en: '', pt: '/pt' };
 
 /**
- * A *screen path* is the locale-independent route — `/`, `/about`, `/blog`.
- * This turns one into the URL that screen has in `locale`.
+ * The URL a screen has in `locale`. Takes a plain string, not a `ScreenPath`:
+ * the language toggle hands it whatever screen the current URL reduces to, and
+ * that has to keep working for routes the union does not list yet (blog posts).
  */
 export function localePath(screen: string, locale: Locale): string {
   const path = `${urlPrefix[locale]}${screen === '/' ? '' : screen}`;

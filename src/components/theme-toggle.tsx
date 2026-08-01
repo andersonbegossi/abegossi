@@ -30,7 +30,12 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
   }
 
   return (
-    <button type="button" onClick={toggle} aria-label="Toggle theme" className={styles.toggle}>
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={t.a11y.toggleTheme}
+      className={styles.toggle}
+    >
       <span className={styles.whenLight}>{t.theme.dark}</span>
       <span className={styles.whenDark}>{t.theme.light}</span>
     </button>

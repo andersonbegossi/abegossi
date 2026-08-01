@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { getDictionary } from '@/lib/i18n';
 import { localePath, storeLocale, type Locale } from '@/lib/i18n/locale';
 import styles from './toggle.module.css';
 
@@ -18,7 +19,7 @@ export function LanguageToggle({ locale, screen }: { locale: Locale; screen: str
       href={localePath(screen, other)}
       hrefLang={other}
       onClick={() => storeLocale(other)}
-      aria-label="Switch language"
+      aria-label={getDictionary(locale).a11y.switchLanguage}
       className={styles.toggle}
     >
       {other.toUpperCase()}

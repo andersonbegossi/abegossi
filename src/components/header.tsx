@@ -2,13 +2,24 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { getDictionary } from '@/lib/i18n';
-import { localeFromPathname, localePath, screenFromPathname } from '@/lib/i18n/locale';
+import { type Dictionary, getDictionary } from '@/lib/i18n';
+import {
+  localeFromPathname,
+  localePath,
+  screenFromPathname,
+  type ScreenPath,
+} from '@/lib/i18n/locale';
 import { LanguageToggle } from './language-toggle';
 import { ThemeToggle } from './theme-toggle';
 import styles from './header.module.css';
 
-const navScreens = ['/about', '/projects', '/blog', '/resume'] as const;
+/** Screen path → the `nav` key holding its label, so a nav item is one entry. */
+const navItems = [
+  ['/about', 'about'],
+  ['/projects', 'projects'],
+  ['/blog', 'blog'],
+  ['/resume', 'resume'],
+] as const satisfies readonly (readonly [ScreenPath, keyof Dictionary['nav']])[];
 
 /**
  * The chrome reads its locale off the URL rather than taking a prop: every
@@ -21,28 +32,21 @@ export function Header() {
   const screen = screenFromPathname(pathname);
   const t = getDictionary(locale);
 
-  const navLabels: Record<(typeof navScreens)[number], string> = {
-    '/about': t.nav.about,
-    '/projects': t.nav.projects,
-    '/blog': t.nav.blog,
-    '/resume': t.nav.resume,
-  };
-
   return (
     <header className={styles.header}>
-      <nav aria-label="Main" className={styles.nav}>
-        <Link href={localePath('/', locale)} aria-label="Home" className={styles.brand}>
+      <nav aria-label={t.a11y.mainNav} className={styles.nav}>
+        <Link href={localePath('/', locale)} aria-label={t.a11y.home} className={styles.brand}>
           ab<span className={styles.brandDot}>.</span>
         </Link>
         <div className={styles.links}>
-          {navScreens.map((navScreen) => (
+          {navItems.map(([navScreen, label]) => (
             <Link
               key={navScreen}
               href={localePath(navScreen, locale)}
               className={styles.link}
               aria-current={navScreen === screen ? 'page' : undefined}
             >
-              {navLabels[navScreen]}
+              {t.nav[label]}
             </Link>
           ))}
         </div>
