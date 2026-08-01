@@ -17,7 +17,10 @@ describe('site chrome', () => {
 
     expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
     expect(within(nav).getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
-    expect(within(nav).getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/projects');
+    expect(within(nav).getByRole('link', { name: 'Projects' })).toHaveAttribute(
+      'href',
+      '/projects',
+    );
     expect(within(nav).getByRole('link', { name: 'Blog' })).toHaveAttribute('href', '/blog');
     expect(within(nav).getByRole('link', { name: 'Resume' })).toHaveAttribute('href', '/resume');
   });

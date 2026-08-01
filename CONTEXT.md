@@ -56,3 +56,4 @@ See `docs/adr/`:
 - 0004 — Contact form delivers via Formspree
 - 0005 — Hosting on Vercel
 - 0006 — Directory-style URLs with a trailing slash
+- 0007 — Biome for linting and formatting

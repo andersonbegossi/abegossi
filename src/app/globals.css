@@ -27,7 +27,7 @@
   color-scheme: light;
 }
 
-:root[data-theme='dark'] {
+:root[data-theme="dark"] {
   --bg: #141312;
   --fg: #edeae6;
   --muted: #a09890;
@@ -91,6 +91,10 @@ button {
   }
 }
 
+/* biome-ignore-start lint/complexity/noImportantStyles: a reduced-motion reset has to beat
+   every animation declaration in the app, including future ones it cannot know about.
+   !important is the mechanism the pattern is built on; removing it silently drops the
+   accessibility guarantee. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -100,3 +104,4 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+/* biome-ignore-end lint/complexity/noImportantStyles: end reduced-motion reset */

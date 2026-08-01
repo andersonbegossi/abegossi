@@ -13,9 +13,7 @@ describe('Home screen', () => {
       'href',
       'https://www.bamse.co/',
     );
-    expect(
-      screen.getByText(/I build mobile apps used by thousands of people/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/I build mobile apps used by thousands of people/)).toBeInTheDocument();
     expect(screen.getByAltText('Anderson Begossi')).toBeInTheDocument();
   });
 
@@ -57,7 +55,9 @@ describe('Home screen', () => {
     renderRoute(<HomePage />);
 
     const selectedWork = screen.getByRole('region', { name: 'Selected work' });
-    const cards = within(selectedWork).getAllByRole('link', { name: /Stewart Acid-Base|Você \+ Saúde/ });
+    const cards = within(selectedWork).getAllByRole('link', {
+      name: /Stewart Acid-Base|Você \+ Saúde/,
+    });
 
     expect(cards).toHaveLength(2);
     expect(cards[0]).toHaveAccessibleName(/Stewart Acid-Base/);
@@ -67,9 +67,7 @@ describe('Home screen', () => {
     }
 
     expect(within(selectedWork).getByText(/React Native · TypeScript/)).toBeInTheDocument();
-    expect(
-      within(selectedWork).getByText(/Clinical decision-support app/),
-    ).toBeInTheDocument();
+    expect(within(selectedWork).getByText(/Clinical decision-support app/)).toBeInTheDocument();
     expect(within(selectedWork).getByRole('link', { name: /View all/ })).toHaveAttribute(
       'href',
       '/projects',

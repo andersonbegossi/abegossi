@@ -19,10 +19,10 @@
   display: none;
 }
 
-:global(:root[data-theme='dark']) .whenLight {
+:global(:root[data-theme="dark"]) .whenLight {
   display: none;
 }
 
-:global(:root[data-theme='dark']) .whenDark {
+:global(:root[data-theme="dark"]) .whenDark {
   display: inline;
 }
