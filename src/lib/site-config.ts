@@ -10,8 +10,8 @@ export const siteConfig = {
   email: 'andersonbegossi@gmail.com',
   github: 'https://github.com/andersonbegossi',
   linkedin: 'https://linkedin.com/in/andersonbegossi-b5065a130',
-  /** No `url`: the design's bamse.com.br does not resolve (link policy, CONTEXT.md). */
-  employer: { name: 'Bamse' },
+  /** Not the design's bamse.com.br, which is NXDOMAIN — this is the live site. */
+  employer: { name: 'Bamse', url: 'https://www.bamse.co/' },
   resumePdf: '/Anderson-Begossi-Resume.pdf',
   resumeFileName: 'Anderson-Begossi-Resume.pdf',
   heroPhoto: '/hero-photo.webp',

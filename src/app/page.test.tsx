@@ -8,9 +8,11 @@ describe('Home screen', () => {
     renderRoute(<HomePage />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'Anderson Begossi' })).toBeInTheDocument();
-    expect(screen.getByText(/Senior Mobile Developer · Bamse/)).toBeInTheDocument();
-    // Link policy: bamse.com.br does not resolve, so the employer is named but not linked.
-    expect(screen.queryByRole('link', { name: 'Bamse' })).not.toBeInTheDocument();
+    expect(screen.getByText(/Senior Mobile Developer/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Bamse' })).toHaveAttribute(
+      'href',
+      'https://www.bamse.co/',
+    );
     expect(
       screen.getByText(/I build mobile apps used by thousands of people/),
     ).toBeInTheDocument();

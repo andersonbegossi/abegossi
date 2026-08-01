@@ -37,6 +37,13 @@
   color: var(--muted);
 }
 
+.employer {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--border);
+}
+
 .bio {
   margin: 16px 0 0;
   font-size: 15.5px;

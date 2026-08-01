@@ -39,11 +39,10 @@ repo is private/nonexistent (`stewart-acid-base`, `voce-mais-saude`,
 card links to this repository (`github.com/andersonbegossi/abegossi`), which is public.
 The design's placeholder `apps.apple.com` "Live" link is dropped.
 
-The rule also removed two controls the design snapshot has:
+Two design controls needed correcting under this rule:
 
-- **Employer link.** The design links "Bamse" to `bamse.com.br`, which is NXDOMAIN.
-  The Home hero names the employer as plain text. Restore the link once Anderson
-  supplies the real URL.
+- **Employer link.** The design points "Bamse" at `bamse.com.br`, which is NXDOMAIN.
+  The real site is `https://www.bamse.co/`, and that is what the Home hero links to.
 - **Language toggle.** The header's EN/PT button is absent until the `/pt/` routes
   exist; it returns with the Portuguese locale (ADR 0002).
 

@@ -22,10 +22,16 @@ export default function HomePage() {
             <h1 id="hero-name" className={styles.name}>
               {siteConfig.author}
             </h1>
-            {/* The design links the employer to bamse.com.br, which does not resolve —
-                link policy (CONTEXT.md) keeps the name and drops the link. */}
             <p className={styles.role}>
-              {en.home.role} · {siteConfig.employer.name}
+              {en.home.role} ·{' '}
+              <a
+                href={siteConfig.employer.url}
+                target="_blank"
+                rel="noopener"
+                className={styles.employer}
+              >
+                {siteConfig.employer.name}
+              </a>
             </p>
             <p className={styles.bio}>{en.home.bio}</p>
           </div>
