@@ -31,12 +31,31 @@
   color: var(--accent);
 }
 
+/*
+ * Every nav label is a single word, so the links cannot shrink below their own
+ * text. Without a scroll container they paint outside this box and collide with
+ * the theme toggle — silently, since the page itself never scrolls sideways.
+ * Overlap begins the moment the viewport drops under 375px (ADR 0008).
+ */
 .links {
   display: flex;
   align-items: center;
   gap: 2px;
   flex: 1;
   min-width: 0;
+  overflow-x: auto;
+  /* overflow-x also clips vertically; keep room for focus rings. */
+  padding-block: 6px;
+  scrollbar-width: none;
+  /*
+   * The hidden scrollbar leaves no cue that links are clipped, so fade the
+   * trailing edge. When nothing overflows, the fade lands on empty space.
+   */
+  mask-image: linear-gradient(to right, #000 calc(100% - 20px), transparent);
+}
+
+.links::-webkit-scrollbar {
+  display: none;
 }
 
 .link {

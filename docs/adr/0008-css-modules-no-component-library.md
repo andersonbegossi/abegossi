@@ -47,9 +47,18 @@ dependency, not an adoption of Tailwind or a token migration.
   framework defaults to fight — but also no defaults to fall back on.
 - In particular, the design snapshot contains **no media queries at all**, so it supplies
   no small-screen guidance and none is inherited from a framework. Responsive rules are
-  ours to author screen by screen. The header is the open case: `header.module.css` is a
-  `flex-wrap: nowrap` row holding brand, four nav links and the theme toggle, with no
-  breakpoint — narrow viewports are unverified.
+  ours to author screen by screen. The first instance was the header, measured in
+  same-origin iframes at fixed widths: every nav label is a single word, so the links
+  could not shrink, and below 375px they painted outside their flex item and overlapped
+  the theme toggle by exactly `375 - viewport` pixels (55px at 320, 15px at 360). Nothing
+  flagged it — the page's `scrollWidth` never exceeded the viewport, so there was no
+  horizontal scrollbar and no test could see it, since jsdom does not lay out. Fixed by
+  making the link row a scroll container (`overflow-x: auto`, `min-width: 0`) with a
+  masked trailing edge as the scroll affordance. At exactly 375px this now clips the last
+  ~5px of "Resume" into the fade, where before it borrowed the flex gap — accepted, since
+  the alternative is altering the design's link padding.
+- Layout regressions of that kind are invisible to the test suite. Verifying a styling
+  change means rendering it at real widths in a browser, not running `vitest`.
 - No generated component API or docs site. Shared UI is discovered by reading
   `src/components/`, which is fine at this size and would not be at ten times it.
 - This ADR is about a seven-screen portfolio with finished visuals. It is not a general
