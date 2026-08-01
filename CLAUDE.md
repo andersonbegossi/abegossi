@@ -50,15 +50,27 @@ Formspree for contact, ADR 0004).
 
 - `src/lib/site-config.ts` — every host-dependent value and external URL. Nothing else may
   hardcode the host; attaching the real domain must stay a one-line change.
-- `src/lib/i18n/en.ts` — all UI chrome strings, copied verbatim from the design. Components
-  never inline user-visible copy. A `pt` counterpart arrives with the Portuguese locale.
+- `src/lib/i18n/{en,pt}.ts` — all UI chrome strings, copied verbatim from the design, both
+  filling the `Dictionary` type so a missing translation is a compile error. Components never
+  inline user-visible copy; they call `getDictionary(locale)`.
+- `src/lib/i18n/locale.ts` — the only place that knows the `/pt` prefix. `localePath` builds a
+  locale's URL for a *screen path* (`/`, `/about`), `screenFromPathname` reads one back.
 - `src/lib/data/projects.ts` — project cards, with the link policy already applied.
 - `src/app/globals.css` — the light/dark token set (`--bg`, `--fg`, `--muted`, `--faint`,
   `--border`, `--card`, `--code`, `--accent`). Component styles are CSS Modules that consume
   these tokens; no component library (ADR 0008).
 
-**Chrome and theming:** `SiteShell` (header + main + footer) is deliberately outside
-`layout.tsx` so tests can render a route in its real surroundings without an `<html>`
+**Locales are routes, not state (ADR 0002).** `src/app/` has no root layout of its own: the
+`(en)` and `(pt)` route groups are two root layouts, which is what lets each locale declare
+its own `<html lang>` in a static export. `(en)/about` is `/about`, `(pt)/pt/about` is
+`/pt/about`. Every page exports `screenMetadata(locale, screen)` for its own canonical and
+`hreflang` pair — a layout cannot, since it would claim one canonical URL for every page
+under it. The chrome reads the locale off the pathname, so pages never thread it down. With
+no root layout, the 404 has nothing to wrap it: `src/app/global-not-found.tsx` renders the
+document itself (via the same `RootDocument`), which is why it is not `not-found.tsx`.
+
+**Chrome and theming:** `SiteShell` (header + main + footer) is deliberately outside the root
+layouts so tests can render a route in its real surroundings without an `<html>`
 document. Theme is `data-theme` on `<html>`: `src/lib/theme.ts` exports both the runtime
 helpers and `themeInitScript`, a blocking inline script in `<head>` that sets the attribute
 before first paint. The two must stay in sync — changing resolution logic means changing both.

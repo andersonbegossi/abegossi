@@ -1,12 +1,23 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, onTestFinished } from 'vitest';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderRoute } from '@/test/render-route';
 import { stubMatchMedia } from '@/test/match-media';
-import HomePage from '@/app/page';
+import HomePage from '@/app/(en)/page';
+import PortugueseHomePage from '@/app/(pt)/pt/page';
 
 function prefersDarkOS(): void {
   stubMatchMedia({ prefersDark: true });
+}
+
+/**
+ * `next/link` handles a click in the app and routes on the client; jsdom would
+ * otherwise attempt a real document navigation and warn that it cannot.
+ */
+function stubClientNavigation(): void {
+  const preventNavigation = (event: MouseEvent) => event.preventDefault();
+  document.addEventListener('click', preventNavigation);
+  onTestFinished(() => document.removeEventListener('click', preventNavigation));
 }
 
 describe('site chrome', () => {
@@ -55,6 +66,75 @@ describe('site chrome', () => {
       'href',
       'mailto:andersonbegossi@gmail.com',
     );
+  });
+});
+
+describe('language', () => {
+  it('translates the nav and keeps it inside the Portuguese locale', () => {
+    renderRoute(<PortugueseHomePage />, '/pt');
+
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+
+    expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/pt');
+    expect(within(nav).getByRole('link', { name: 'Sobre' })).toHaveAttribute('href', '/pt/about');
+    expect(within(nav).getByRole('link', { name: 'Projetos' })).toHaveAttribute(
+      'href',
+      '/pt/projects',
+    );
+    expect(within(nav).getByRole('link', { name: 'Blog' })).toHaveAttribute('href', '/pt/blog');
+    expect(within(nav).getByRole('link', { name: 'Currículo' })).toHaveAttribute(
+      'href',
+      '/pt/resume',
+    );
+  });
+
+  it('marks the current screen as active in either locale', () => {
+    renderRoute(<PortugueseHomePage />, '/pt/projects');
+
+    expect(screen.getByRole('link', { name: 'Projetos' })).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('offers the same screen in the other language', () => {
+    renderRoute(<HomePage />, '/about');
+
+    const toggle = screen.getByRole('link', { name: 'Switch language' });
+
+    expect(toggle).toHaveTextContent('PT');
+    expect(toggle).toHaveAttribute('href', '/pt/about');
+  });
+
+  it('leads back to the same screen in English from Portuguese', () => {
+    renderRoute(<PortugueseHomePage />, '/pt/about');
+
+    const toggle = screen.getByRole('link', { name: 'Switch language' });
+
+    expect(toggle).toHaveTextContent('EN');
+    expect(toggle).toHaveAttribute('href', '/about');
+  });
+
+  it('switches the Home screens between each other, not into a sub-page', () => {
+    renderRoute(<PortugueseHomePage />, '/pt');
+
+    expect(screen.getByRole('link', { name: 'Switch language' })).toHaveAttribute('href', '/');
+  });
+
+  it('remembers the language the visitor picked', async () => {
+    const user = userEvent.setup();
+    stubClientNavigation();
+    renderRoute(<HomePage />, '/');
+
+    await user.click(screen.getByRole('link', { name: 'Switch language' }));
+
+    expect(localStorage.getItem('ab-lang')).toBe('pt');
+  });
+
+  it('labels the theme toggle in the language of the page', () => {
+    renderRoute(<PortugueseHomePage />, '/pt');
+
+    const toggle = screen.getByRole('button', { name: 'Toggle theme' });
+
+    expect(within(toggle).getByText('ESCURO')).toBeInTheDocument();
+    expect(within(toggle).getByText('CLARO')).toBeInTheDocument();
   });
 });
 

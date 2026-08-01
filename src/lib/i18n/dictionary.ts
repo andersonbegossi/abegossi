@@ -1,0 +1,52 @@
+/**
+ * The shape every locale dictionary fills. Written out rather than inferred
+ * from `en` so the compiler rejects a locale that is missing a string — a `pt`
+ * page silently falling back to English is exactly what this must prevent.
+ */
+export type Dictionary = {
+  nav: { about: string; projects: string; blog: string; resume: string };
+  /** The design has no 404 screen; this copy is ours, kept to the design's voice. */
+  notFound: { title: string; subtitle: string };
+  /** Labels name the theme you would switch *to*; the design derives them inline. */
+  theme: { light: string; dark: string };
+  home: {
+    role: string;
+    bio: string;
+    availability: string;
+    downloadResume: string;
+    contactMe: string;
+    selectedWork: string;
+    recentWriting: string;
+    viewAll: string;
+  };
+  about: {
+    title: string;
+    p1: string;
+    p2: string;
+    experienceTitle: string;
+    skillsTitle: string;
+    languagesTitle: string;
+    educationTitle: string;
+    degree: string;
+  };
+  projects: { title: string; subtitle: string; demo: string };
+  blog: {
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    featured: string;
+    minRead: string;
+    noResults: string;
+  };
+  resume: { title: string; download: string; summary: string };
+  contact: {
+    title: string;
+    subtitle: string;
+    formName: string;
+    formEmail: string;
+    formMessage: string;
+    send: string;
+    sentTitle: string;
+    sentBody: string;
+  };
+};
