@@ -26,8 +26,9 @@ npx vitest run src/app/page.test.tsx
 npx vitest run -t 'introduces Anderson'
 ```
 
-Commits must follow Conventional Commits (commitlint, 72-char header) — `.husky/commit-msg`
-enforces it, and `.husky/pre-commit` runs lint-staged plus `typecheck`.
+Commits must follow Conventional Commits with no scope — `feat: …`, not `feat(i18n): …`
+(commitlint, 72-char header). `.husky/commit-msg` enforces it, and `.husky/pre-commit` runs
+lint-staged plus `typecheck`.
 
 ## Read before working
 
