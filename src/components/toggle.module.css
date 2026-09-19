@@ -1,3 +1,8 @@
+/*
+ * The design gives the language and theme controls one identical chip, so both
+ * components share this module rather than drifting apart in two copies. The
+ * `when*` rules below belong to the theme toggle alone.
+ */
 .toggle {
   border: 1px solid var(--border);
   background: none;

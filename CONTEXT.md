@@ -43,8 +43,9 @@ Two design controls needed correcting under this rule:
 
 - **Employer link.** The design points "Bamse" at `bamse.com.br`, which is NXDOMAIN.
   The real site is `https://www.bamse.co/`, and that is what the Home hero links to.
-- **Language toggle.** The header's EN/PT button is absent until the `/pt/` routes
-  exist; it returns with the Portuguese locale (ADR 0002).
+- **Language toggle.** The design swaps strings on a single URL; the header control is a
+  link to the same screen in the other locale instead (ADR 0002), so what it points at
+  always resolves.
 
 ## Decisions
 

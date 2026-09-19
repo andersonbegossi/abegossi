@@ -1,11 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { en } from '@/lib/i18n/en';
+import { featuredProjects } from '@/lib/data/projects';
+import { getDictionary } from '@/lib/i18n';
+import { localePath, type Locale } from '@/lib/i18n/locale';
 import { siteConfig } from '@/lib/site-config';
-import { featuredProjectsEn } from '@/lib/data/projects';
-import styles from './page.module.css';
+import styles from './home-screen.module.css';
 
-export default function HomePage() {
+/** The Home screen body, rendered by the routed page of each locale. */
+export function HomeScreen({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale);
+
   return (
     <div className={styles.screen}>
       <section aria-labelledby="hero-name">
@@ -23,7 +27,7 @@ export default function HomePage() {
               {siteConfig.author}
             </h1>
             <p className={styles.role}>
-              {en.home.role} ·{' '}
+              {t.home.role} ·{' '}
               <a
                 href={siteConfig.employer.url}
                 target="_blank"
@@ -33,13 +37,13 @@ export default function HomePage() {
                 {siteConfig.employer.name}
               </a>
             </p>
-            <p className={styles.bio}>{en.home.bio}</p>
+            <p className={styles.bio}>{t.home.bio}</p>
           </div>
         </div>
 
         <p className={styles.availability}>
           <span aria-hidden="true" className={styles.availabilityDot} />
-          <span>{en.home.availability}</span>
+          <span>{t.home.availability}</span>
         </p>
 
         <div className={styles.actions}>
@@ -48,10 +52,10 @@ export default function HomePage() {
             download={siteConfig.resumeFileName}
             className={styles.primaryAction}
           >
-            {en.home.downloadResume} ↓
+            {t.home.downloadResume} ↓
           </a>
-          <Link href="/contact" className={styles.secondaryAction}>
-            {en.home.contactMe}
+          <Link href={localePath('/contact', locale)} className={styles.secondaryAction}>
+            {t.home.contactMe}
           </Link>
           <div className={styles.profiles}>
             <a href={siteConfig.github} target="_blank" rel="noopener" className={styles.profile}>
@@ -67,17 +71,17 @@ export default function HomePage() {
       <section aria-labelledby="selected-work" className={styles.selectedWork}>
         <div className={styles.sectionHead}>
           <h2 id="selected-work" className={styles.sectionTitle}>
-            {en.home.selectedWork}
+            {t.home.selectedWork}
           </h2>
-          <Link href="/projects" className={styles.viewAll}>
-            {en.home.viewAll} →
+          <Link href={localePath('/projects', locale)} className={styles.viewAll}>
+            {t.home.viewAll} →
           </Link>
         </div>
         <div className={styles.cards}>
-          {featuredProjectsEn.map((project) => (
-            <Link key={project.slug} href="/projects" className={styles.card}>
+          {featuredProjects.map((project) => (
+            <Link key={project.slug} href={localePath('/projects', locale)} className={styles.card}>
               <span className={styles.cardName}>{project.name}</span>
-              <span className={styles.cardDesc}>{project.desc}</span>
+              <span className={styles.cardDesc}>{project.desc[locale]}</span>
               <span className={styles.cardTech}>{project.tech.join(' · ')}</span>
             </Link>
           ))}

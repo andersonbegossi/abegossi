@@ -2,44 +2,56 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { en } from '@/lib/i18n/en';
+import { type Dictionary, getDictionary } from '@/lib/i18n';
+import {
+  localeFromPathname,
+  localePath,
+  screenFromPathname,
+  type ScreenPath,
+} from '@/lib/i18n/locale';
+import { LanguageToggle } from './language-toggle';
 import { ThemeToggle } from './theme-toggle';
 import styles from './header.module.css';
 
+/** Screen path → the `nav` key holding its label, so a nav item is one entry. */
 const navItems = [
-  { href: '/about', label: en.nav.about },
-  { href: '/projects', label: en.nav.projects },
-  { href: '/blog', label: en.nav.blog },
-  { href: '/resume', label: en.nav.resume },
-] as const;
+  ['/about', 'about'],
+  ['/projects', 'projects'],
+  ['/blog', 'blog'],
+  ['/resume', 'resume'],
+] as const satisfies readonly (readonly [ScreenPath, keyof Dictionary['nav']])[];
 
 /**
- * The design's language toggle is deliberately absent until the Portuguese
- * locale exists — a visible control must lead somewhere (CONTEXT.md link policy).
+ * The chrome reads its locale off the URL rather than taking a prop: every
+ * screen is routed per locale (ADR 0002), so the pathname already says which
+ * language the visitor is reading and no page has to thread it down.
  */
 export function Header() {
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const locale = localeFromPathname(pathname);
+  const screen = screenFromPathname(pathname);
+  const t = getDictionary(locale);
 
   return (
     <header className={styles.header}>
-      <nav aria-label="Main" className={styles.nav}>
-        <Link href="/" aria-label="Home" className={styles.brand}>
+      <nav aria-label={t.a11y.mainNav} className={styles.nav}>
+        <Link href={localePath('/', locale)} aria-label={t.a11y.home} className={styles.brand}>
           ab<span className={styles.brandDot}>.</span>
         </Link>
         <div className={styles.links}>
-          {navItems.map((item) => (
+          {navItems.map(([navScreen, label]) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={navScreen}
+              href={localePath(navScreen, locale)}
               className={styles.link}
-              aria-current={isActive(item.href) ? 'page' : undefined}
+              aria-current={navScreen === screen ? 'page' : undefined}
             >
-              {item.label}
+              {t.nav[label]}
             </Link>
           ))}
         </div>
-        <ThemeToggle />
+        <LanguageToggle locale={locale} screen={screen} />
+        <ThemeToggle locale={locale} />
       </nav>
     </header>
   );

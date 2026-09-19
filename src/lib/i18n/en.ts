@@ -1,11 +1,23 @@
+import type { Dictionary } from './dictionary';
+
 /**
  * UI chrome strings, verbatim from the design snapshot's `en` object
  * (`docs/design/portfolio.dc.html`). Article copy is MDX (ADR 0003); this file
- * only holds nav, buttons and section titles. The `pt` counterpart arrives with
- * the Portuguese locale.
+ * only holds nav, buttons and section titles.
  */
-export const en = {
+export const en: Dictionary = {
   nav: { about: 'About', projects: 'Projects', blog: 'Blog', resume: 'Resume' },
+  a11y: {
+    mainNav: 'Main',
+    home: 'Home',
+    switchLanguage: 'Switch language',
+    toggleTheme: 'Toggle theme',
+  },
+  notFound: {
+    title: 'Page not found',
+    subtitle: 'That page doesn’t exist — try the navigation above.',
+  },
+  theme: { light: 'LIGHT', dark: 'DARK' },
   home: {
     role: 'Senior Mobile Developer',
     bio: 'I build mobile apps used by thousands of people. Currently crafting the e-commerce apps of Dental Cremer, Dental Speed and Utilidades Clínicas (Henry Schein) — rated 4.9/5 on the App Store and Google Play.',
@@ -56,4 +68,4 @@ export const en = {
     sentTitle: 'Message sent!',
     sentBody: 'Thanks for reaching out — I’ll get back to you soon.',
   },
-} as const;
+};
