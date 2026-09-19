@@ -10,20 +10,20 @@ statically exported.
 ## Commands
 
 ```bash
-npm run dev              # Next dev server
-npm run build            # static export into out/
-npm run typecheck        # tsc --noEmit (also runs in the pre-commit hook)
-npm test                 # vitest run
-npm run test:watch
-npm run check            # biome lint + format check
-npm run check:fix        # biome autofix (what lint-staged runs on commit)
+yarn dev         # Next dev server
+yarn build       # static export into out/
+yarn typecheck   # tsc --noEmit (also runs in the pre-commit hook)
+yarn test        # vitest run
+yarn test:watch
+yarn check       # biome lint + format check
+yarn check:fix   # biome autofix (what lint-staged runs on commit)
 ```
 
 Single test file / single case:
 
 ```bash
-npx vitest run 'src/app/(en)/page.test.tsx'
-npx vitest run -t 'introduces Anderson'
+yarn vitest run 'src/app/(en)/page.test.tsx'
+yarn vitest run -t 'introduces Anderson'
 ```
 
 Commits must follow Conventional Commits with no scope — `feat: …`, not `feat(i18n): …`
